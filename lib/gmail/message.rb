@@ -156,13 +156,15 @@ module Gmail
 
     # Remove given label from this message.
     def remove_label!(name)
-      move_to('[Gmail]/All Mail', name)
+      begin
+        move_to('[Gmail]/All Mail', name)
       rescue NoLabelError
-        move_to('[Google Mail]/All Mail', name)
+        begin
+          move_to('[Google Mail]/All Mail', name)
         rescue NoLabelError
-        @gmail.labels.add(Net::IMAP.encode_utf7('[Gmail]/All Mail'))
-        label('[Gmail]/All Mail')
-    end
+          @gmail.labels.add(Net::IMAP.encode_utf7('[Gmail]/All Mail'))
+          label('[Gmail]/All Mail')
+        end
       end
     end
     alias :delete_label! :remove_label!
