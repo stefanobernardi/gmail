@@ -116,6 +116,10 @@ module Gmail
     def expunge
       @gmail.mailbox(name) { @gmail.conn.expunge }
     end
+    
+    def messages
+      @messages ||= {}
+    end
 
     def inspect
       "#<Gmail::Mailbox#{'0x%04x' % (object_id << 1)} name=#{external_name}>"
